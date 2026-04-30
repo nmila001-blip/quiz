@@ -1,11 +1,134 @@
 <!DOCTYPE html>
-  <html>
-  <header>
-  <title>quiz</title>
+<html>
+<head>
+  <title>Evolution Study Guide</title>
+
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0f172a;
+      color: white;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background-color: #1e293b;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    .card {
+      background-color: #1e40af;
+      margin: 15px auto;
+      padding: 15px;
+      width: 80%;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      background-color: #2563eb;
+    }
+
+    .answer {
+      display: none;
+      margin-top: 10px;
+      background: #0ea5e9;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: #22c55e;
+      color: black;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #16a34a;
+    }
   </style>
-  </header>
-    <body>
-      <h1>QUIZ ON random things</h1>
-    </body>
-  </html>
+</head>
+
+<body>
+
+<header>
+  🧬 STUDY: 4.3 UNIT TEST - EVOLUTION
+</header>
+
+<div class="container">
+
+  <div class="card" onclick="toggle(this)">
+    What is Evolution?
+    <div class="answer">
+      Evolution is the change in traits of a population over time.
+    </div>
+  </div>
+
+  <div class="card" onclick="toggle(this)">
+    Who is Charles Darwin?
+    <div class="answer">
+      Scientist who developed the theory of natural selection after studying the Galápagos Islands.
+    </div>
+  </div>
+
+  <div class="card" onclick="toggle(this)">
+    What is Natural Selection?
+    <div class="answer">
+      Organisms with better traits survive and reproduce more successfully.
+    </div>
+  </div>
+
+  <div class="card" onclick="toggle(this)">
+    Evidence of Evolution?
+    <div class="answer">
+      Fossils, DNA, embryology, and homologous structures.
+    </div>
+  </div>
+
+  <div class="card" onclick="toggle(this)">
+    Homologous vs Analogous?
+    <div class="answer">
+      Homologous = same structure, different function. <br>
+      Analogous = same function, different structure.
+    </div>
+  </div>
+
+  <button onclick="showAll()">Show All Answers</button>
+
+</div>
+
+<script>
+function toggle(card) {
+  let answer = card.querySelector(".answer");
+
+  if (answer.style.display === "block") {
+    answer.style.display = "none";
+  } else {
+    answer.style.display = "block";
+  }
+}
+
+function showAll() {
+  let answers = document.querySelectorAll(".answer");
+  answers.forEach(a => {
+    a.style.display = "block";
+  });
+}
+</script>
+
+</body>
+</html>
