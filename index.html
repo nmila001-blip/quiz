@@ -1,133 +1,150 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Evolution Study Guide</title>
+  <title>Evolution Quiz</title>
 
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #0f172a;
+      font-family: Arial;
+      background: #0f172a;
       color: white;
+      text-align: center;
       margin: 0;
       padding: 0;
-      text-align: center;
     }
 
-    header {
-      background-color: #1e293b;
-      padding: 20px;
+    .box {
+      margin-top: 80px;
+      width: 70%;
+      margin-left: auto;
+      margin-right: auto;
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 15px;
+    }
+
+    .question {
       font-size: 24px;
-      font-weight: bold;
+      margin-bottom: 20px;
     }
 
-    .container {
-      padding: 20px;
-    }
-
-    .card {
-      background-color: #1e40af;
-      margin: 15px auto;
-      padding: 15px;
-      width: 80%;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .card:hover {
-      background-color: #2563eb;
-    }
-
-    .answer {
-      display: none;
-      margin-top: 10px;
-      background: #0ea5e9;
+    .btn {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
       padding: 10px;
-      border-radius: 10px;
-    }
-
-    button {
-      padding: 10px 15px;
-      margin-top: 20px;
+      font-size: 18px;
       border: none;
       border-radius: 10px;
       cursor: pointer;
+      background: #334155;
+      color: white;
+    }
+
+    .btn:hover {
+      background: #475569;
+    }
+
+    #nextBtn {
+      margin-top: 15px;
       background: #22c55e;
-      color: black;
       font-weight: bold;
     }
 
-    button:hover {
-      background: #16a34a;
+    #score {
+      margin-top: 20px;
+      font-size: 20px;
     }
   </style>
 </head>
 
 <body>
 
-<header>
-  🧬 STUDY: 4.3 UNIT TEST - EVOLUTION
-</header>
+<div class="box">
+  <div class="question" id="question">Loading...</div>
 
-<div class="container">
+  <button class="btn" onclick="selectAnswer('A')" id="A"></button>
+  <button class="btn" onclick="selectAnswer('B')" id="B"></button>
+  <button class="btn" onclick="selectAnswer('C')" id="C"></button>
+  <button class="btn" onclick="selectAnswer('D')" id="D"></button>
 
-  <div class="card" onclick="toggle(this)">
-    What is Evolution?
-    <div class="answer">
-      Evolution is the change in traits of a population over time.
-    </div>
-  </div>
+  <button id="nextBtn" onclick="nextQuestion()">NEXT ➜</button>
 
-  <div class="card" onclick="toggle(this)">
-    Who is Charles Darwin?
-    <div class="answer">
-      Scientist who developed the theory of natural selection after studying the Galápagos Islands.
-    </div>
-  </div>
-
-  <div class="card" onclick="toggle(this)">
-    What is Natural Selection?
-    <div class="answer">
-      Organisms with better traits survive and reproduce more successfully.
-    </div>
-  </div>
-
-  <div class="card" onclick="toggle(this)">
-    Evidence of Evolution?
-    <div class="answer">
-      Fossils, DNA, embryology, and homologous structures.
-    </div>
-  </div>
-
-  <div class="card" onclick="toggle(this)">
-    Homologous vs Analogous?
-    <div class="answer">
-      Homologous = same structure, different function. <br>
-      Analogous = same function, different structure.
-    </div>
-  </div>
-
-  <button onclick="showAll()">Show All Answers</button>
-
+  <div id="score"></div>
 </div>
 
 <script>
-function toggle(card) {
-  let answer = card.querySelector(".answer");
+let current = 0;
+let score = 0;
+let selected = null;
 
-  if (answer.style.display === "block") {
-    answer.style.display = "none";
+let quiz = [
+  {
+    q: "What is evolution?",
+    A: "Change in species over time",
+    B: "Animals staying the same",
+    C: "Only humans evolving",
+    D: "Random weather changes",
+    correct: "A"
+  },
+  {
+    q: "Who is Charles Darwin?",
+    A: "Invented electricity",
+    B: "Developed Natural Selection",
+    C: "Made vaccines",
+    D: "Discovered DNA structure",
+    correct: "B"
+  },
+  {
+    q: "Natural selection means:",
+    A: "Weak survive",
+    B: "All survive equally",
+    C: "Best traits survive and reproduce",
+    D: "No change happens",
+    correct: "C"
+  },
+  {
+    q: "Fossils provide evidence of:",
+    A: "Weather patterns",
+    B: "Evolution over time",
+    C: "Food chains only",
+    D: "Gravity changes",
+    correct: "B"
+  }
+];
+
+function loadQuestion() {
+  let q = quiz[current];
+
+  document.getElementById("question").innerText = q.q;
+  document.getElementById("A").innerText = "A: " + q.A;
+  document.getElementById("B").innerText = "B: " + q.B;
+  document.getElementById("C").innerText = "C: " + q.C;
+  document.getElementById("D").innerText = "D: " + q.D;
+
+  selected = null;
+}
+
+function selectAnswer(option) {
+  selected = option;
+}
+
+function nextQuestion() {
+  if (selected === quiz[current].correct) {
+    score++;
+  }
+
+  current++;
+
+  if (current < quiz.length) {
+    loadQuestion();
   } else {
-    answer.style.display = "block";
+    document.querySelector(".box").innerHTML =
+      "<h2>Quiz Finished!</h2><p>Your score: " + score + "/" + quiz.length + "</p>";
   }
 }
 
-function showAll() {
-  let answers = document.querySelectorAll(".answer");
-  answers.forEach(a => {
-    a.style.display = "block";
-  });
-}
+loadQuestion();
 </script>
 
 </body>
