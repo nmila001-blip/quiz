@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Evolution Quiz</title>
+  <title>Evolution 35 Question Quiz</title>
 
   <style>
     body {
@@ -14,46 +14,66 @@
     }
 
     .box {
-      margin-top: 80px;
-      width: 70%;
+      margin-top: 60px;
+      width: 75%;
       margin-left: auto;
       margin-right: auto;
       background: #1e293b;
-      padding: 30px;
+      padding: 25px;
       border-radius: 15px;
     }
 
     .question {
-      font-size: 24px;
+      font-size: 22px;
       margin-bottom: 20px;
     }
 
     .btn {
       display: block;
       width: 100%;
-      margin: 10px 0;
+      margin: 8px 0;
       padding: 10px;
-      font-size: 18px;
+      font-size: 16px;
       border: none;
       border-radius: 10px;
       cursor: pointer;
       background: #334155;
       color: white;
+      transition: 0.2s;
     }
 
     .btn:hover {
       background: #475569;
     }
 
+    .selected {
+      background: #facc15 !important;
+      color: black;
+    }
+
+    .correct {
+      background: #22c55e !important;
+      color: black;
+    }
+
+    .wrong {
+      background: #ef4444 !important;
+      color: white;
+    }
+
     #nextBtn {
       margin-top: 15px;
       background: #22c55e;
       font-weight: bold;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
     }
 
     #score {
-      margin-top: 20px;
-      font-size: 20px;
+      margin-top: 15px;
+      font-size: 18px;
     }
   </style>
 </head>
@@ -63,58 +83,67 @@
 <div class="box">
   <div class="question" id="question">Loading...</div>
 
-  <button class="btn" onclick="selectAnswer('A')" id="A"></button>
-  <button class="btn" onclick="selectAnswer('B')" id="B"></button>
-  <button class="btn" onclick="selectAnswer('C')" id="C"></button>
-  <button class="btn" onclick="selectAnswer('D')" id="D"></button>
+  <button class="btn" onclick="select('A')" id="A"></button>
+  <button class="btn" onclick="select('B')" id="B"></button>
+  <button class="btn" onclick="select('C')" id="C"></button>
+  <button class="btn" onclick="select('D')" id="D"></button>
 
-  <button id="nextBtn" onclick="nextQuestion()">NEXT ➜</button>
+  <button id="nextBtn" onclick="nextQ()">NEXT ➜</button>
 
   <div id="score"></div>
 </div>
 
 <script>
-let current = 0;
+let i = 0;
 let score = 0;
-let selected = null;
+let picked = null;
+let answered = false;
 
 let quiz = [
-  {
-    q: "What is evolution?",
-    A: "Change in species over time",
-    B: "Animals staying the same",
-    C: "Only humans evolving",
-    D: "Random weather changes",
-    correct: "A"
-  },
-  {
-    q: "Who is Charles Darwin?",
-    A: "Invented electricity",
-    B: "Developed Natural Selection",
-    C: "Made vaccines",
-    D: "Discovered DNA structure",
-    correct: "B"
-  },
-  {
-    q: "Natural selection means:",
-    A: "Weak survive",
-    B: "All survive equally",
-    C: "Best traits survive and reproduce",
-    D: "No change happens",
-    correct: "C"
-  },
-  {
-    q: "Fossils provide evidence of:",
-    A: "Weather patterns",
-    B: "Evolution over time",
-    C: "Food chains only",
-    D: "Gravity changes",
-    correct: "B"
-  }
+  {q:"What is evolution?", A:"Change over time", B:"Stays same", C:"Weather change", D:"Random event", c:"A"},
+  {q:"Who is Darwin?", A:"Teacher", B:"Natural selection scientist", C:"Doctor", D:"Engineer", c:"B"},
+  {q:"Natural selection means:", A:"Weak survive", B:"All same", C:"Best traits survive", D:"No change", c:"C"},
+  {q:"Fossils show:", A:"Future life", B:"Evolution", C:"Weather", D:"Sound", c:"B"},
+  {q:"DNA shows:", A:"Unrelated species", B:"Same weather", C:"Common ancestry", D:"Noise", c:"C"},
+  {q:"Homologous structures:", A:"Same function", B:"Same structure different function", C:"No structure", D:"Random", c:"B"},
+  {q:"Analogous structures:", A:"Same function different structure", B:"Same DNA", C:"Same bones", D:"No use", c:"A"},
+  {q:"Embryos show:", A:"No relation", B:"Similar early stages", C:"Weather", D:"Food chains", c:"B"},
+  {q:"Adaptation is:", A:"Random change", B:"Helpful trait", C:"Bad trait", D:"Noise", c:"B"},
+  {q:"Overproduction means:", A:"Few babies", B:"Too many offspring", C:"No reproduction", D:"Death only", c:"B"},
+  
+  {q:"Variation means:", A:"All identical", B:"Differences in population", C:"No DNA", D:"No traits", c:"B"},
+  {q:"Fitness means:", A:"Strength only", B:"Survival + reproduction", C:"Speed only", D:"Size only", c:"B"},
+  {q:"Selective pressure:", A:"Helps survival", B:"Random luck", C:"Kills all", D:"No effect", c:"A"},
+  {q:"Beak changes in finches due to:", A:"Weather", B:"Food types", C:"Noise", D:"Random", c:"B"},
+  {q:"Species change happens over:", A:"Minutes", B:"Days", C:"Generations", D:"Seconds", c:"C"},
+  
+  {q:"Evolution is:", A:"Instant", B:"Over time change", C:"No change", D:"Magic", c:"B"},
+  {q:"Common ancestor means:", A:"Same species always", B:"Shared origin", C:"No relation", D:"Random", c:"B"},
+  {q:"Best survival traits:", A:"Disappear", B:"Passed on", C:"Ignored", D:"Destroyed", c:"B"},
+  {q:"Mutation is:", A:"DNA change", B:"No change", C:"Weather", D:"Food", c:"A"},
+  {q:"Natural selection removes:", A:"Helpful traits", B:"Bad traits", C:"DNA", D:"Fossils", c:"B"},
+  
+  {q:"Evolution evidence includes:", A:"DNA", B:"Fossils", C:"Embryos", D:"All of these", c:"D"},
+  {q:"Population means:", A:"One animal", B:"Group of same species", C:"Different species", D:"Plants only", c:"B"},
+  {q:"Survival of the fittest means:", A:"Strongest only", B:"Best adapted survive", C:"Fastest only", D:"Biggest only", c:"B"},
+  {q:"Traits passed down:", A:"Learned only", B:"Inherited", C:"Deleted", D:"Random", c:"B"},
+  {q:"Evolution supports:", A:"Change", B:"No change", C:"Instant life", D:"None", c:"A"},
+  
+  {q:"Vestigial structures:", A:"Useful always", B:"No longer useful", C:"New organs", D:"DNA only", c:"B"},
+  {q:"Human appendix is:", A:"Vestigial", B:"Bone", C:"Muscle", D:"Skin", c:"A"},
+  {q:"Darwin studied:", A:"Computers", B:"Galápagos Islands", C:"Cities", D:"Space", c:"B"},
+  {q:"Evolution requires:", A:"Time", B:"No change", C:"Instant jump", D:"Magic", c:"A"},
+  {q:"Better traits lead to:", A:"Less survival", B:"More reproduction", C:"No change", D:"Death", c:"B"},
+  
+  {q:"Species definition:", A:"Same DNA always", B:"Can reproduce together", C:"Different animals", D:"Random", c:"B"},
+  {q:"Competition is for:", A:"Resources", B:"Fun", C:"Colors", D:"Noise", c:"A"},
+  {q:"Environment affects:", A:"Selection", B:"Nothing", C:"DNA disappears", D:"Time", c:"A"},
+  {q:"Evolution is supported by:", A:"Only fossils", B:"Multiple evidence", C:"Guessing", D:"Myths", c:"B"},
+  {q:"Final idea of evolution:", A:"Change over time", B:"No change", C:"Random only", D:"Instant creation", c:"A"}
 ];
 
-function loadQuestion() {
-  let q = quiz[current];
+function load() {
+  let q = quiz[i];
 
   document.getElementById("question").innerText = q.q;
   document.getElementById("A").innerText = "A: " + q.A;
@@ -122,29 +151,55 @@ function loadQuestion() {
   document.getElementById("C").innerText = "C: " + q.C;
   document.getElementById("D").innerText = "D: " + q.D;
 
-  selected = null;
+  resetButtons();
+  picked = null;
+  answered = false;
 }
 
-function selectAnswer(option) {
-  selected = option;
+function select(opt) {
+  if (answered) return;
+
+  picked = opt;
+
+  resetButtons();
+  document.getElementById(opt).classList.add("selected");
 }
 
-function nextQuestion() {
-  if (selected === quiz[current].correct) {
+function nextQ() {
+  if (!picked) return;
+
+  let correct = quiz[i].c;
+
+  if (picked === correct) {
     score++;
-  }
-
-  current++;
-
-  if (current < quiz.length) {
-    loadQuestion();
+    document.getElementById(picked).classList.add("correct");
   } else {
-    document.querySelector(".box").innerHTML =
-      "<h2>Quiz Finished!</h2><p>Your score: " + score + "/" + quiz.length + "</p>";
+    document.getElementById(picked).classList.add("wrong");
+    document.getElementById(correct).classList.add("correct");
   }
+
+  answered = true;
+
+  setTimeout(() => {
+    i++;
+
+    if (i < quiz.length) {
+      load();
+    } else {
+      document.querySelector(".box").innerHTML =
+        "<h1>Quiz Finished!</h1><h2>Score: " + score + "/35</h2>";
+    }
+  }, 800);
 }
 
-loadQuestion();
+function resetButtons() {
+  ["A","B","C","D"].forEach(id => {
+    let b = document.getElementById(id);
+    b.classList.remove("selected", "correct", "wrong");
+  });
+}
+
+load();
 </script>
 
 </body>
