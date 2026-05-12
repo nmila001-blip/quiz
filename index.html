@@ -1,206 +1,481 @@
+# Human Body Systems Vocabulary Quiz
+
+```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Evolution 35 Question Quiz</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Human Body Systems Quiz</title>
 
-  <style>
-    body {
-      font-family: Arial;
-      background: #0f172a;
-      color: white;
-      text-align: center;
-      margin: 0;
-      padding: 0;
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#141e30,#243b55);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+.quiz-box{
+    width:850px;
+    max-width:100%;
+    background:rgba(0,0,0,0.35);
+    backdrop-filter:blur(10px);
+    border-radius:25px;
+    padding:35px;
+    box-shadow:0 0 25px rgba(0,0,0,0.4);
+    animation:fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+    font-size:2.3rem;
+}
+
+#progress{
+    font-size:1rem;
+    margin-bottom:15px;
+    color:#d0d0d0;
+}
+
+#question{
+    font-size:1.5rem;
+    margin-bottom:25px;
+    line-height:1.5;
+}
+
+.answers{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.btn{
+    background:#30475e;
+    border:none;
+    padding:18px;
+    border-radius:15px;
+    color:white;
+    font-size:1rem;
+    cursor:pointer;
+    transition:0.25s;
+}
+
+.btn:hover{
+    transform:scale(1.03);
+    background:#3f5f80;
+}
+
+.correct{
+    background:#1faa59 !important;
+}
+
+.wrong{
+    background:#d62839 !important;
+}
+
+#nextBtn{
+    margin-top:25px;
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:15px;
+    background:#fca311;
+    color:black;
+    font-size:1.1rem;
+    font-weight:bold;
+    cursor:pointer;
+    display:none;
+    transition:0.25s;
+}
+
+#nextBtn:hover{
+    transform:scale(1.02);
+}
+
+#scoreScreen{
+    text-align:center;
+    display:none;
+}
+
+#scoreScreen h2{
+    font-size:2.5rem;
+    margin-bottom:20px;
+}
+
+#finalScore{
+    font-size:1.5rem;
+    margin-bottom:25px;
+}
+
+#restartBtn{
+    padding:15px 30px;
+    border:none;
+    border-radius:15px;
+    background:#00b4d8;
+    color:white;
+    font-size:1.1rem;
+    cursor:pointer;
+}
+
+@media(max-width:700px){
+    .answers{
+        grid-template-columns:1fr;
     }
 
-    .box {
-      margin-top: 60px;
-      width: 75%;
-      margin-left: auto;
-      margin-right: auto;
-      background: #1e293b;
-      padding: 25px;
-      border-radius: 15px;
+    h1{
+        font-size:1.8rem;
     }
 
-    .question {
-      font-size: 22px;
-      margin-bottom: 20px;
+    #question{
+        font-size:1.2rem;
     }
+}
 
-    .btn {
-      display: block;
-      width: 100%;
-      margin: 8px 0;
-      padding: 10px;
-      font-size: 16px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      background: #334155;
-      color: white;
-      transition: 0.2s;
-    }
-
-    .btn:hover {
-      background: #475569;
-    }
-
-    .selected {
-      background: #facc15 !important;
-      color: black;
-    }
-
-    .correct {
-      background: #22c55e !important;
-      color: black;
-    }
-
-    .wrong {
-      background: #ef4444 !important;
-      color: white;
-    }
-
-    #nextBtn {
-      margin-top: 15px;
-      background: #22c55e;
-      font-weight: bold;
-      padding: 10px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-    }
-
-    #score {
-      margin-top: 15px;
-      font-size: 18px;
-    }
-  </style>
+</style>
 </head>
-
 <body>
 
-<div class="box">
-  <div class="question" id="question">Loading...</div>
+<div class="quiz-box">
 
-  <button class="btn" onclick="select('A')" id="A"></button>
-  <button class="btn" onclick="select('B')" id="B"></button>
-  <button class="btn" onclick="select('C')" id="C"></button>
-  <button class="btn" onclick="select('D')" id="D"></button>
+    <div id="quizScreen">
+        <h1>Human Body Systems Vocabulary Quiz</h1>
 
-  <button id="nextBtn" onclick="nextQ()">NEXT ➜</button>
+        <div id="progress"></div>
 
-  <div id="score"></div>
+        <div id="question"></div>
+
+        <div class="answers" id="answers"></div>
+
+        <button id="nextBtn">Next Question</button>
+    </div>
+
+    <div id="scoreScreen">
+        <h2>Quiz Complete!</h2>
+        <div id="finalScore"></div>
+        <button id="restartBtn">Play Again</button>
+    </div>
+
 </div>
 
 <script>
-let i = 0;
-let score = 0;
-let picked = null;
-let answered = false;
 
-let quiz = [
-  {q:"What is evolution?", A:"Change over time", B:"Stays same", C:"Weather change", D:"Random event", c:"A"},
-  {q:"Who is Darwin?", A:"Teacher", B:"Natural selection scientist", C:"Doctor", D:"Engineer", c:"B"},
-  {q:"Natural selection means:", A:"Weak survive", B:"All same", C:"Best traits survive", D:"No change", c:"C"},
-  {q:"Fossils show:", A:"Future life", B:"Evolution", C:"Weather", D:"Sound", c:"B"},
-  {q:"DNA shows:", A:"Unrelated species", B:"Same weather", C:"Common ancestry", D:"Noise", c:"C"},
-  {q:"Homologous structures:", A:"Same function", B:"Same structure different function", C:"No structure", D:"Random", c:"B"},
-  {q:"Analogous structures:", A:"Same function different structure", B:"Same DNA", C:"Same bones", D:"No use", c:"A"},
-  {q:"Embryos show:", A:"No relation", B:"Similar early stages", C:"Weather", D:"Food chains", c:"B"},
-  {q:"Adaptation is:", A:"Random change", B:"Helpful trait", C:"Bad trait", D:"Noise", c:"B"},
-  {q:"Overproduction means:", A:"Few babies", B:"Too many offspring", C:"No reproduction", D:"Death only", c:"B"},
-  
-  {q:"Variation means:", A:"All identical", B:"Differences in population", C:"No DNA", D:"No traits", c:"B"},
-  {q:"Fitness means:", A:"Strength only", B:"Survival + reproduction", C:"Speed only", D:"Size only", c:"B"},
-  {q:"Selective pressure:", A:"Helps survival", B:"Random luck", C:"Kills all", D:"No effect", c:"A"},
-  {q:"Beak changes in finches due to:", A:"Weather", B:"Food types", C:"Noise", D:"Random", c:"B"},
-  {q:"Species change happens over:", A:"Minutes", B:"Days", C:"Generations", D:"Seconds", c:"C"},
-  
-  {q:"Evolution is:", A:"Instant", B:"Over time change", C:"No change", D:"Magic", c:"B"},
-  {q:"Common ancestor means:", A:"Same species always", B:"Shared origin", C:"No relation", D:"Random", c:"B"},
-  {q:"Best survival traits:", A:"Disappear", B:"Passed on", C:"Ignored", D:"Destroyed", c:"B"},
-  {q:"Mutation is:", A:"DNA change", B:"No change", C:"Weather", D:"Food", c:"A"},
-  {q:"Natural selection removes:", A:"Helpful traits", B:"Bad traits", C:"DNA", D:"Fossils", c:"B"},
-  
-  {q:"Evolution evidence includes:", A:"DNA", B:"Fossils", C:"Embryos", D:"All of these", c:"D"},
-  {q:"Population means:", A:"One animal", B:"Group of same species", C:"Different species", D:"Plants only", c:"B"},
-  {q:"Survival of the fittest means:", A:"Strongest only", B:"Best adapted survive", C:"Fastest only", D:"Biggest only", c:"B"},
-  {q:"Traits passed down:", A:"Learned only", B:"Inherited", C:"Deleted", D:"Random", c:"B"},
-  {q:"Evolution supports:", A:"Change", B:"No change", C:"Instant life", D:"None", c:"A"},
-  
-  {q:"Vestigial structures:", A:"Useful always", B:"No longer useful", C:"New organs", D:"DNA only", c:"B"},
-  {q:"Human appendix is:", A:"Vestigial", B:"Bone", C:"Muscle", D:"Skin", c:"A"},
-  {q:"Darwin studied:", A:"Computers", B:"Galápagos Islands", C:"Cities", D:"Space", c:"B"},
-  {q:"Evolution requires:", A:"Time", B:"No change", C:"Instant jump", D:"Magic", c:"A"},
-  {q:"Better traits lead to:", A:"Less survival", B:"More reproduction", C:"No change", D:"Death", c:"B"},
-  
-  {q:"Species definition:", A:"Same DNA always", B:"Can reproduce together", C:"Different animals", D:"Random", c:"B"},
-  {q:"Competition is for:", A:"Resources", B:"Fun", C:"Colors", D:"Noise", c:"A"},
-  {q:"Environment affects:", A:"Selection", B:"Nothing", C:"DNA disappears", D:"Time", c:"A"},
-  {q:"Evolution is supported by:", A:"Only fossils", B:"Multiple evidence", C:"Guessing", D:"Myths", c:"B"},
-  {q:"Final idea of evolution:", A:"Change over time", B:"No change", C:"Random only", D:"Instant creation", c:"A"}
+const quizData = [
+{
+question:"What are living things too small to see with the naked eye called?",
+answers:[
+{text:"Microorganisms",correct:true},
+{text:"Viruses",correct:false},
+{text:"Defense mechanisms",correct:false},
+{text:"Nutrients",correct:false}
+]
+},
+{
+question:"What are non-living particles that invade host cells called?",
+answers:[
+{text:"Chemical barriers",correct:false},
+{text:"Viruses",correct:true},
+{text:"Oxygen",correct:false},
+{text:"Support",correct:false}
+]
+},
+{
+question:"What term means the body's natural ways to fight infection and disease?",
+answers:[
+{text:"Gas exchange",correct:false},
+{text:"Defense mechanisms",correct:true},
+{text:"Movement",correct:false},
+{text:"Coordination",correct:false}
+]
+},
+{
+question:"What system includes the skin, hair, and nails?",
+answers:[
+{text:"Digestive system",correct:false},
+{text:"Integumentary system",correct:true},
+{text:"Respiratory system",correct:false},
+{text:"Nervous system",correct:false}
+]
+},
+{
+question:"What are body structures that prevent pathogens from entering called?",
+answers:[
+{text:"Physical barriers",correct:true},
+{text:"Chemical barriers",correct:false},
+{text:"Viruses",correct:false},
+{text:"Coordination",correct:false}
+]
+},
+{
+question:"What are substances like sweat and stomach acid that kill pathogens called?",
+answers:[
+{text:"Physical barriers",correct:false},
+{text:"Chemical barriers",correct:true},
+{text:"Microorganisms",correct:false},
+{text:"Movement",correct:false}
+]
+},
+{
+question:"What term means maintaining a stable internal environment?",
+answers:[
+{text:"Energy production",correct:false},
+{text:"Homeostasis",correct:true},
+{text:"Gas exchange",correct:false},
+{text:"Support",correct:false}
+]
+},
+{
+question:"What term means the body's ability to maintain homeostasis?",
+answers:[
+{text:"Internal stability",correct:true},
+{text:"Coordination",correct:false},
+{text:"Movement",correct:false},
+{text:"Excretion",correct:false}
+]
+},
+{
+question:"What system breaks down food into nutrients the body can absorb?",
+answers:[
+{text:"Digestive system",correct:true},
+{text:"Respiratory system",correct:false},
+{text:"Musculoskeletal system",correct:false},
+{text:"Nervous system",correct:false}
+]
+},
+{
+question:"What is the process by which nutrients enter the bloodstream called?",
+answers:[
+{text:"Gas exchange",correct:false},
+{text:"Nutrient absorption",correct:true},
+{text:"Movement",correct:false},
+{text:"Support",correct:false}
+]
+},
+{
+question:"What system enables gas exchange between the body and the environment?",
+answers:[
+{text:"Respiratory system",correct:true},
+{text:"Digestive system",correct:false},
+{text:"Excretory system",correct:false},
+{text:"Integumentary system",correct:false}
+]
+},
+{
+question:"What is the process of taking in oxygen and releasing carbon dioxide called?",
+answers:[
+{text:"Gas exchange",correct:true},
+{text:"Coordination",correct:false},
+{text:"Homeostasis",correct:false},
+{text:"Movement",correct:false}
+]
+},
+{
+question:"What gas is essential for cellular respiration?",
+answers:[
+{text:"Carbon dioxide",correct:false},
+{text:"Oxygen",correct:true},
+{text:"Nitrogen",correct:false},
+{text:"Hydrogen",correct:false}
+]
+},
+{
+question:"What waste product is produced during cellular respiration?",
+answers:[
+{text:"Oxygen",correct:false},
+{text:"Carbon dioxide",correct:true},
+{text:"Sweat",correct:false},
+{text:"Water",correct:false}
+]
+},
+{
+question:"What term means the body's creation of energy from food?",
+answers:[
+{text:"Energy production",correct:true},
+{text:"Support",correct:false},
+{text:"Movement",correct:false},
+{text:"Defense mechanisms",correct:false}
+]
+},
+{
+question:"What system eliminates waste products like urine and feces?",
+answers:[
+{text:"Respiratory system",correct:false},
+{text:"Excretory system",correct:true},
+{text:"Digestive system",correct:false},
+{text:"Musculoskeletal system",correct:false}
+]
+},
+{
+question:"What system controls the body's activities through nerves and the brain?",
+answers:[
+{text:"Nervous system",correct:true},
+{text:"Digestive system",correct:false},
+{text:"Respiratory system",correct:false},
+{text:"Excretory system",correct:false}
+]
+},
+{
+question:"What term means body parts working together smoothly?",
+answers:[
+{text:"Movement",correct:false},
+{text:"Coordination",correct:true},
+{text:"Support",correct:false},
+{text:"Homeostasis",correct:false}
+]
+},
+{
+question:"What system provides support and movement through muscles and bones?",
+answers:[
+{text:"Digestive system",correct:false},
+{text:"Musculoskeletal system",correct:true},
+{text:"Respiratory system",correct:false},
+{text:"Integumentary system",correct:false}
+]
+},
+{
+question:"What term means the framework that holds the body upright?",
+answers:[
+{text:"Movement",correct:false},
+{text:"Support",correct:true},
+{text:"Gas exchange",correct:false},
+{text:"Internal stability",correct:false}
+]
+},
+{
+question:"What term means the ability to move body parts or the whole body?",
+answers:[
+{text:"Coordination",correct:false},
+{text:"Movement",correct:true},
+{text:"Support",correct:false},
+{text:"Energy production",correct:false}
+]
+}
 ];
 
-function load() {
-  let q = quiz[i];
+const question=document.getElementById('question');
+const answers=document.getElementById('answers');
+const nextBtn=document.getElementById('nextBtn');
+const progress=document.getElementById('progress');
+const scoreScreen=document.getElementById('scoreScreen');
+const finalScore=document.getElementById('finalScore');
+const restartBtn=document.getElementById('restartBtn');
+const quizScreen=document.getElementById('quizScreen');
 
-  document.getElementById("question").innerText = q.q;
-  document.getElementById("A").innerText = "A: " + q.A;
-  document.getElementById("B").innerText = "B: " + q.B;
-  document.getElementById("C").innerText = "C: " + q.C;
-  document.getElementById("D").innerText = "D: " + q.D;
+let currentQuestion=0;
+let score=0;
 
-  resetButtons();
-  picked = null;
-  answered = false;
+function startQuiz(){
+    currentQuestion=0;
+    score=0;
+    scoreScreen.style.display='none';
+    quizScreen.style.display='block';
+    showQuestion();
 }
 
-function select(opt) {
-  if (answered) return;
+function showQuestion(){
+    resetState();
 
-  picked = opt;
+    let current=quizData[currentQuestion];
 
-  resetButtons();
-  document.getElementById(opt).classList.add("selected");
+    progress.innerHTML=`Question ${currentQuestion+1} / ${quizData.length}`;
+    question.innerHTML=current.question;
+
+    current.answers.forEach(answer=>{
+        const button=document.createElement('button');
+        button.innerHTML=answer.text;
+        button.classList.add('btn');
+
+        if(answer.correct){
+            button.dataset.correct=answer.correct;
+        }
+
+        button.addEventListener('click',selectAnswer);
+
+        answers.appendChild(button);
+    });
 }
 
-function nextQ() {
-  if (!picked) return;
+function resetState(){
+    nextBtn.style.display='none';
 
-  let correct = quiz[i].c;
-
-  if (picked === correct) {
-    score++;
-    document.getElementById(picked).classList.add("correct");
-  } else {
-    document.getElementById(picked).classList.add("wrong");
-    document.getElementById(correct).classList.add("correct");
-  }
-
-  answered = true;
-
-  setTimeout(() => {
-    i++;
-
-    if (i < quiz.length) {
-      load();
-    } else {
-      document.querySelector(".box").innerHTML =
-        "<h1>Quiz Finished!</h1><h2>Score: " + score + "/35</h2>";
+    while(answers.firstChild){
+        answers.removeChild(answers.firstChild);
     }
-  }, 800);
 }
 
-function resetButtons() {
-  ["A","B","C","D"].forEach(id => {
-    let b = document.getElementById(id);
-    b.classList.remove("selected", "correct", "wrong");
-  });
+function selectAnswer(e){
+
+    const selected=e.target;
+    const correct=selected.dataset.correct==='true';
+
+    if(correct){
+        selected.classList.add('correct');
+        score++;
+    }else{
+        selected.classList.add('wrong');
+    }
+
+    Array.from(answers.children).forEach(button=>{
+
+        if(button.dataset.correct==='true'){
+            button.classList.add('correct');
+        }
+
+        button.disabled=true;
+    });
+
+    nextBtn.style.display='block';
 }
 
-load();
+nextBtn.addEventListener('click',()=>{
+
+    currentQuestion++;
+
+    if(currentQuestion<quizData.length){
+        showQuestion();
+    }else{
+        showResults();
+    }
+
+});
+
+function showResults(){
+
+    quizScreen.style.display='none';
+    scoreScreen.style.display='block';
+
+    finalScore.innerHTML=`You got <b>${score}</b> out of <b>${quizData.length}</b> correct!`;
+}
+
+restartBtn.addEventListener('click',startQuiz);
+
+startQuiz();
+
 </script>
 
 </body>
 </html>
+```
