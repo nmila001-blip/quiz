@@ -387,9 +387,13 @@ const quizScreen=document.getElementById('quizScreen');
 let currentQuestion=0;
 let score=0;
 
+quizData.sort(() => Math.random() - 0.5);
+
 function startQuiz(){
     currentQuestion=0;
     score=0;
+
+    quizData.sort(() => Math.random() - 0.5);
     scoreScreen.style.display='none';
     quizScreen.style.display='block';
     showQuestion();
