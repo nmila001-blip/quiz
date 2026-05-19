@@ -1,485 +1,320 @@
-# Human Body Systems Vocabulary Quiz
-
-```html
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Human Body Systems Quiz</title>
+  <title>Advanced U.S. History Quiz</title>
 
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    font-family:Arial, sans-serif;
-    background:linear-gradient(135deg,#141e30,#243b55);
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    padding:20px;
-}
-
-.quiz-box{
-    width:850px;
-    max-width:100%;
-    background:rgba(0,0,0,0.35);
-    backdrop-filter:blur(10px);
-    border-radius:25px;
-    padding:35px;
-    box-shadow:0 0 25px rgba(0,0,0,0.4);
-    animation:fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:translateY(20px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-h1{
-    text-align:center;
-    margin-bottom:25px;
-    font-size:2.3rem;
-}
-
-#progress{
-    font-size:1rem;
-    margin-bottom:15px;
-    color:#d0d0d0;
-}
-
-#question{
-    font-size:1.5rem;
-    margin-bottom:25px;
-    line-height:1.5;
-}
-
-.answers{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-}
-
-.btn{
-    background:#30475e;
-    border:none;
-    padding:18px;
-    border-radius:15px;
-    color:white;
-    font-size:1rem;
-    cursor:pointer;
-    transition:0.25s;
-}
-
-.btn:hover{
-    transform:scale(1.03);
-    background:#3f5f80;
-}
-
-.correct{
-    background:#1faa59 !important;
-}
-
-.wrong{
-    background:#d62839 !important;
-}
-
-#nextBtn{
-    margin-top:25px;
-    width:100%;
-    padding:16px;
-    border:none;
-    border-radius:15px;
-    background:#fca311;
-    color:black;
-    font-size:1.1rem;
-    font-weight:bold;
-    cursor:pointer;
-    display:none;
-    transition:0.25s;
-}
-
-#nextBtn:hover{
-    transform:scale(1.02);
-}
-
-#scoreScreen{
-    text-align:center;
-    display:none;
-}
-
-#scoreScreen h2{
-    font-size:2.5rem;
-    margin-bottom:20px;
-}
-
-#finalScore{
-    font-size:1.5rem;
-    margin-bottom:25px;
-}
-
-#restartBtn{
-    padding:15px 30px;
-    border:none;
-    border-radius:15px;
-    background:#00b4d8;
-    color:white;
-    font-size:1.1rem;
-    cursor:pointer;
-}
-
-@media(max-width:700px){
-    .answers{
-        grid-template-columns:1fr;
+  <style>
+    body {
+      font-family: Arial;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 0;
     }
 
-    h1{
-        font-size:1.8rem;
+    .box {
+      margin-top: 60px;
+      width: 75%;
+      margin-left: auto;
+      margin-right: auto;
+      background: #1e293b;
+      padding: 25px;
+      border-radius: 15px;
     }
 
-    #question{
-        font-size:1.2rem;
+    .question {
+      font-size: 22px;
+      margin-bottom: 20px;
     }
-}
 
-</style>
+    .btn {
+      display: block;
+      width: 100%;
+      margin: 8px 0;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: #334155;
+      color: white;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      background: #475569;
+    }
+
+    .selected {
+      background: #facc15 !important;
+      color: black;
+    }
+
+    .correct {
+      background: #22c55e !important;
+      color: black;
+    }
+
+    .wrong {
+      background: #ef4444 !important;
+      color: white;
+    }
+
+    #nextBtn {
+      margin-top: 15px;
+      background: #22c55e;
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    #score {
+      margin-top: 15px;
+      font-size: 18px;
+    }
+
+    #progress {
+      margin-bottom: 15px;
+      color: #cbd5e1;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="quiz-box">
+<div class="box">
 
-    <div id="quizScreen">
-        <h1>Human Body Systems Vocabulary Quiz</h1>
+  <div id="progress"></div>
 
-        <div id="progress"></div>
+  <div class="question" id="question">Loading...</div>
 
-        <div id="question"></div>
+  <button class="btn" onclick="select('A')" id="A"></button>
+  <button class="btn" onclick="select('B')" id="B"></button>
+  <button class="btn" onclick="select('C')" id="C"></button>
+  <button class="btn" onclick="select('D')" id="D"></button>
 
-        <div class="answers" id="answers"></div>
+  <button id="nextBtn" onclick="nextQ()">NEXT ➜</button>
 
-        <button id="nextBtn">Next Question</button>
-    </div>
-
-    <div id="scoreScreen">
-        <h2>Quiz Complete!</h2>
-        <div id="finalScore"></div>
-        <button id="restartBtn">Play Again</button>
-    </div>
+  <div id="score"></div>
 
 </div>
 
 <script>
 
-const quizData = [
-{
-question:"What are living things too small to see with the naked eye called?",
-answers:[
-{text:"Microorganisms",correct:true},
-{text:"Viruses",correct:false},
-{text:"Defense mechanisms",correct:false},
-{text:"Nutrients",correct:false}
-]
-},
-{
-question:"What are non-living particles that invade host cells called?",
-answers:[
-{text:"Chemical barriers",correct:false},
-{text:"Viruses",correct:true},
-{text:"Oxygen",correct:false},
-{text:"Support",correct:false}
-]
-},
-{
-question:"What term means the body's natural ways to fight infection and disease?",
-answers:[
-{text:"Gas exchange",correct:false},
-{text:"Defense mechanisms",correct:true},
-{text:"Movement",correct:false},
-{text:"Coordination",correct:false}
-]
-},
-{
-question:"What system includes the skin, hair, and nails?",
-answers:[
-{text:"Digestive system",correct:false},
-{text:"Integumentary system",correct:true},
-{text:"Respiratory system",correct:false},
-{text:"Nervous system",correct:false}
-]
-},
-{
-question:"What are body structures that prevent pathogens from entering called?",
-answers:[
-{text:"Physical barriers",correct:true},
-{text:"Chemical barriers",correct:false},
-{text:"Viruses",correct:false},
-{text:"Coordination",correct:false}
-]
-},
-{
-question:"What are substances like sweat and stomach acid that kill pathogens called?",
-answers:[
-{text:"Physical barriers",correct:false},
-{text:"Chemical barriers",correct:true},
-{text:"Microorganisms",correct:false},
-{text:"Movement",correct:false}
-]
-},
-{
-question:"What term means maintaining a stable internal environment?",
-answers:[
-{text:"Energy production",correct:false},
-{text:"Homeostasis",correct:true},
-{text:"Gas exchange",correct:false},
-{text:"Support",correct:false}
-]
-},
-{
-question:"What term means the body's ability to maintain homeostasis?",
-answers:[
-{text:"Internal stability",correct:true},
-{text:"Coordination",correct:false},
-{text:"Movement",correct:false},
-{text:"Excretion",correct:false}
-]
-},
-{
-question:"What system breaks down food into nutrients the body can absorb?",
-answers:[
-{text:"Digestive system",correct:true},
-{text:"Respiratory system",correct:false},
-{text:"Musculoskeletal system",correct:false},
-{text:"Nervous system",correct:false}
-]
-},
-{
-question:"What is the process by which nutrients enter the bloodstream called?",
-answers:[
-{text:"Gas exchange",correct:false},
-{text:"Nutrient absorption",correct:true},
-{text:"Movement",correct:false},
-{text:"Support",correct:false}
-]
-},
-{
-question:"What system enables gas exchange between the body and the environment?",
-answers:[
-{text:"Respiratory system",correct:true},
-{text:"Digestive system",correct:false},
-{text:"Excretory system",correct:false},
-{text:"Integumentary system",correct:false}
-]
-},
-{
-question:"What is the process of taking in oxygen and releasing carbon dioxide called?",
-answers:[
-{text:"Gas exchange",correct:true},
-{text:"Coordination",correct:false},
-{text:"Homeostasis",correct:false},
-{text:"Movement",correct:false}
-]
-},
-{
-question:"What gas is essential for cellular respiration?",
-answers:[
-{text:"Carbon dioxide",correct:false},
-{text:"Oxygen",correct:true},
-{text:"Nitrogen",correct:false},
-{text:"Hydrogen",correct:false}
-]
-},
-{
-question:"What waste product is produced during cellular respiration?",
-answers:[
-{text:"Oxygen",correct:false},
-{text:"Carbon dioxide",correct:true},
-{text:"Sweat",correct:false},
-{text:"Water",correct:false}
-]
-},
-{
-question:"What term means the body's creation of energy from food?",
-answers:[
-{text:"Energy production",correct:true},
-{text:"Support",correct:false},
-{text:"Movement",correct:false},
-{text:"Defense mechanisms",correct:false}
-]
-},
-{
-question:"What system eliminates waste products like urine and feces?",
-answers:[
-{text:"Respiratory system",correct:false},
-{text:"Excretory system",correct:true},
-{text:"Digestive system",correct:false},
-{text:"Musculoskeletal system",correct:false}
-]
-},
-{
-question:"What system controls the body's activities through nerves and the brain?",
-answers:[
-{text:"Nervous system",correct:true},
-{text:"Digestive system",correct:false},
-{text:"Respiratory system",correct:false},
-{text:"Excretory system",correct:false}
-]
-},
-{
-question:"What term means body parts working together smoothly?",
-answers:[
-{text:"Movement",correct:false},
-{text:"Coordination",correct:true},
-{text:"Support",correct:false},
-{text:"Homeostasis",correct:false}
-]
-},
-{
-question:"What system provides support and movement through muscles and bones?",
-answers:[
-{text:"Digestive system",correct:false},
-{text:"Musculoskeletal system",correct:true},
-{text:"Respiratory system",correct:false},
-{text:"Integumentary system",correct:false}
-]
-},
-{
-question:"What term means the framework that holds the body upright?",
-answers:[
-{text:"Movement",correct:false},
-{text:"Support",correct:true},
-{text:"Gas exchange",correct:false},
-{text:"Internal stability",correct:false}
-]
-},
-{
-question:"What term means the ability to move body parts or the whole body?",
-answers:[
-{text:"Coordination",correct:false},
-{text:"Movement",correct:true},
-{text:"Support",correct:false},
-{text:"Energy production",correct:false}
-]
-}
+let i = 0;
+let score = 0;
+let picked = null;
+let answered = false;
+
+let quiz = [
+
+{q:"What is a primary source?", A:"A source from the time period", B:"A modern textbook", C:"A movie", D:"A website", c:"A"},
+
+{q:"What was the main reason for European exploration?", A:"Finding trade routes and wealth", B:"Watching movies", C:"Avoiding oceans", D:"Building factories", c:"A"},
+
+{q:"What crop helped Jamestown survive?", A:"Rice", B:"Corn", C:"Tobacco", D:"Cotton", c:"C"},
+
+{q:"What was the Northwest Passage?", A:"A water route to Asia", B:"A battle", C:"A tax law", D:"A colony", c:"A"},
+
+{q:"What was mercantilism?", A:"Economic system benefiting the mother country", B:"A religion", C:"A war", D:"A treaty", c:"A"},
+
+{q:"What was the Great Awakening?", A:"Religious revival movement", B:"War", C:"Tax protest", D:"Trade route", c:"A"},
+
+{q:"Who wrote the Declaration of Independence?", A:"George Washington", B:"Thomas Jefferson", C:"John Adams", D:"Benjamin Franklin", c:"B"},
+
+{q:"What battle was the turning point of the American Revolution?", A:"Yorktown", B:"Saratoga", C:"Bunker Hill", D:"Lexington", c:"B"},
+
+{q:"What weakness did the Articles of Confederation have?", A:"Weak national government", B:"Strong army", C:"Too many presidents", D:"Too much money", c:"A"},
+
+{q:"What event showed the weaknesses of the Articles?", A:"Boston Tea Party", B:"Shay's Rebellion", C:"Civil War", D:"Louisiana Purchase", c:"B"},
+
+{q:"What did the Great Compromise settle?", A:"Representation in Congress", B:"Slavery", C:"Taxes", D:"Religion", c:"A"},
+
+{q:"What principle divides power among branches?", A:"Federalism", B:"Popular sovereignty", C:"Checks and balances", D:"Separation of powers", c:"D"},
+
+{q:"Who created the cabinet system?", A:"Washington", B:"Jefferson", C:"Adams", D:"Hamilton", c:"A"},
+
+{q:"Hamilton wanted a ______ federal government.", A:"Weak", B:"Small", C:"Strong", D:"Limited", c:"C"},
+
+{q:"What invention helped cotton production?", A:"Steam engine", B:"Telegraph", C:"Cotton gin", D:"Light bulb", c:"C"},
+
+{q:"What was Manifest Destiny?", A:"Belief in westward expansion", B:"A tax", C:"A war", D:"A religion", c:"A"},
+
+{q:"What was the Trail of Tears?", A:"A trade route", B:"Forced Native American relocation", C:"A railroad", D:"A battle", c:"B"},
+
+{q:"What ended the Mexican-American War?", A:"Treaty of Guadalupe Hidalgo", B:"Constitution", C:"Missouri Compromise", D:"Monroe Doctrine", c:"A"},
+
+{q:"Why was the Missouri Compromise important?", A:"Balanced free and slave states", B:"Ended slavery", C:"Started war", D:"Created parties", c:"A"},
+
+{q:"What was the spoils system?", A:"Rewarding supporters with jobs", B:"Tax system", C:"Trade system", D:"Military plan", c:"A"},
+
+{q:"What did the Stamp Act tax?", A:"Printed materials", B:"Tea", C:"Glass", D:"Sugar", c:"A"},
+
+{q:"What was the Boston Tea Party?", A:"Colonists dumping tea", B:"A battle", C:"A treaty", D:"A speech", c:"A"},
+
+{q:"What does consent of the governed mean?", A:"Government power comes from the people", B:"Kings rule forever", C:"Military control", D:"Religious power", c:"A"},
+
+{q:"What are unalienable rights?", A:"Rights that cannot be taken away", B:"Temporary laws", C:"Taxes", D:"Privileges", c:"A"},
+
+{q:"Who commanded the Continental Army?", A:"Washington", B:"Jefferson", C:"Hamilton", D:"Franklin", c:"A"},
+
+{q:"What document limited the king’s power?", A:"Magna Carta", B:"Constitution", C:"Bill of Rights", D:"Mayflower Compact", c:"A"},
+
+{q:"What was the Enlightenment?", A:"Movement promoting reason", B:"Trade route", C:"War", D:"Religion", c:"A"},
+
+{q:"Who won the French and Indian War?", A:"Britain", B:"France", C:"Spain", D:"Colonists", c:"A"},
+
+{q:"What angered colonists about the Proclamation of 1763?", A:"Could not move west", B:"Lost elections", C:"No trade", D:"Lost farms", c:"A"},
+
+{q:"What did the Navigation Acts do?", A:"Restricted colonial trade", B:"Freed colonies", C:"Ended taxes", D:"Started wars", c:"A"},
+
+{q:"What colonial region focused on shipbuilding and fishing?", A:"New England", B:"Southern", C:"Middle", D:"Western", c:"A"},
+
+{q:"What was subsistence farming?", A:"Growing enough food to survive", B:"Factory farming", C:"Cash crop farming", D:"Mining", c:"A"},
+
+{q:"What was the House of Burgesses?", A:"Representative assembly", B:"War council", C:"Tax office", D:"Church", c:"A"},
+
+{q:"What did the Albany Plan of Union encourage?", A:"Colonial unity", B:"War with Spain", C:"Slavery", D:"Trade", c:"A"},
+
+{q:"What was the Middle Passage?", A:"Slave trade route", B:"Colonial road", C:"Battle", D:"River", c:"A"},
+
+{q:"What did the Declaration of Independence do?", A:"Declared independence from Britain", B:"Ended slavery", C:"Created taxes", D:"Started Constitution", c:"A"},
+
+{q:"What was Shay’s Rebellion?", A:"Farmers protesting debt", B:"British attack", C:"Slave revolt", D:"Tax law", c:"A"},
+
+{q:"What compromise counted enslaved people as 3/5?", A:"Three-Fifths Compromise", B:"Missouri Compromise", C:"Great Compromise", D:"Compromise of 1850", c:"A"},
+
+{q:"What principle means power belongs to the people?", A:"Popular sovereignty", B:"Federalism", C:"Checks and balances", D:"Judicial review", c:"A"},
+
+{q:"What are checks and balances?", A:"Each branch limits the others", B:"Tax collection", C:"Voting system", D:"Military structure", c:"A"},
+
+{q:"What political party did Jefferson support?", A:"Democratic-Republicans", B:"Federalists", C:"Whigs", D:"Republicans", c:"A"},
+
+{q:"What did the Alien and Sedition Acts limit?", A:"Speech and immigrants", B:"Trade", C:"Voting", D:"Religion", c:"A"},
+
+{q:"What was the Industrial Revolution?", A:"Shift to machines and factories", B:"A war", C:"A migration", D:"A religion", c:"A"},
+
+{q:"Who invented the cotton gin?", A:"Eli Whitney", B:"Thomas Edison", C:"Alexander Bell", D:"Henry Ford", c:"A"},
+
+{q:"What did interchangeable parts improve?", A:"Manufacturing", B:"Farming", C:"Religion", D:"Voting", c:"A"},
+
+{q:"What issue caused sectionalism?", A:"Slavery", B:"Music", C:"Sports", D:"Television", c:"A"},
+
+{q:"What did Jackson’s spoils system do?", A:"Gave jobs to supporters", B:"Ended voting", C:"Raised taxes", D:"Built railroads", c:"A"},
+
+{q:"What was the Nullification Crisis about?", A:"States’ rights vs federal power", B:"War with Mexico", C:"Voting rights", D:"Banking", c:"A"},
+
+{q:"Why did Jackson oppose the national bank?", A:"Thought it favored the wealthy", B:"Wanted more banks", C:"Loved tariffs", D:"Wanted war", c:"A"},
+
+{q:"What was the Panic of 1837?", A:"Economic depression", B:"War", C:"Election", D:"Religious movement", c:"A"},
+
+{q:"Who were Tejanos?", A:"Mexican Texans", B:"French settlers", C:"Native Americans", D:"British soldiers", c:"A"},
+
+{q:"Who was president during the Mexican-American War?", A:"James K. Polk", B:"Lincoln", C:"Adams", D:"Jefferson", c:"A"},
+
+{q:"What did the Treaty of Guadalupe Hidalgo do?", A:"Gave western land to U.S.", B:"Ended Revolution", C:"Ended Civil War", D:"Started slavery", c:"A"},
+
+{q:"Why did Mormons move west?", A:"Religious persecution", B:"Gold", C:"War", D:"Trade", c:"A"},
+
+{q:"What caused the California Gold Rush?", A:"Gold discovered in 1848", B:"War", C:"Factories", D:"Railroads", c:"A"}
+
 ];
 
-const question=document.getElementById('question');
-const answers=document.getElementById('answers');
-const nextBtn=document.getElementById('nextBtn');
-const progress=document.getElementById('progress');
-const scoreScreen=document.getElementById('scoreScreen');
-const finalScore=document.getElementById('finalScore');
-const restartBtn=document.getElementById('restartBtn');
-const quizScreen=document.getElementById('quizScreen');
+quiz.sort(() => Math.random() - 0.5);
 
-let currentQuestion=0;
-let score=0;
+function load() {
 
-quizData.sort(() => Math.random() - 0.5);
+  let q = quiz[i];
 
-function startQuiz(){
-    currentQuestion=0;
-    score=0;
+  document.getElementById("progress").innerText =
+    "Question " + (i + 1) + " / " + quiz.length;
 
-    quizData.sort(() => Math.random() - 0.5);
-    scoreScreen.style.display='none';
-    quizScreen.style.display='block';
-    showQuestion();
+  document.getElementById("question").innerText = q.q;
+
+  document.getElementById("A").innerText = "A: " + q.A;
+  document.getElementById("B").innerText = "B: " + q.B;
+  document.getElementById("C").innerText = "C: " + q.C;
+  document.getElementById("D").innerText = "D: " + q.D;
+
+  resetButtons();
+
+  picked = null;
+  answered = false;
+
+  document.getElementById("score").innerText =
+    "Score: " + score;
 }
 
-function showQuestion(){
-    resetState();
+function select(opt) {
 
-    let current=quizData[currentQuestion];
+  if (answered) return;
 
-    progress.innerHTML=`Question ${currentQuestion+1} / ${quizData.length}`;
-    question.innerHTML=current.question;
+  picked = opt;
 
-    current.answers.forEach(answer=>{
-        const button=document.createElement('button');
-        button.innerHTML=answer.text;
-        button.classList.add('btn');
+  resetButtons();
 
-        if(answer.correct){
-            button.dataset.correct=answer.correct;
-        }
-
-        button.addEventListener('click',selectAnswer);
-
-        answers.appendChild(button);
-    });
+  document.getElementById(opt).classList.add("selected");
 }
 
-function resetState(){
-    nextBtn.style.display='none';
+function nextQ() {
 
-    while(answers.firstChild){
-        answers.removeChild(answers.firstChild);
-    }
-}
+  if (!picked) return;
 
-function selectAnswer(e){
+  let correct = quiz[i].c;
 
-    const selected=e.target;
-    const correct=selected.dataset.correct==='true';
+  if (picked === correct) {
 
-    if(correct){
-        selected.classList.add('correct');
-        score++;
-    }else{
-        selected.classList.add('wrong');
-    }
+    score++;
 
-    Array.from(answers.children).forEach(button=>{
+    document.getElementById(picked).classList.add("correct");
 
-        if(button.dataset.correct==='true'){
-            button.classList.add('correct');
-        }
+  } else {
 
-        button.disabled=true;
-    });
+    document.getElementById(picked).classList.add("wrong");
 
-    nextBtn.style.display='block';
-}
+    document.getElementById(correct).classList.add("correct");
+  }
 
-nextBtn.addEventListener('click',()=>{
+  answered = true;
 
-    currentQuestion++;
+  setTimeout(() => {
 
-    if(currentQuestion<quizData.length){
-        showQuestion();
-    }else{
-        showResults();
+    i++;
+
+    if (i < quiz.length) {
+
+      load();
+
+    } else {
+
+      let percent = Math.round((score / quiz.length) * 100);
+
+      document.querySelector(".box").innerHTML =
+        "<h1>Quiz Finished!</h1>" +
+        "<h2>Score: " + score + "/" + quiz.length + "</h2>" +
+        "<h2>" + percent + "%</h2>";
     }
 
-});
-
-function showResults(){
-
-    quizScreen.style.display='none';
-    scoreScreen.style.display='block';
-
-    finalScore.innerHTML=`You got <b>${score}</b> out of <b>${quizData.length}</b> correct!`;
+  }, 800);
 }
 
-restartBtn.addEventListener('click',startQuiz);
+function resetButtons() {
 
-startQuiz();
+  ["A","B","C","D"].forEach(id => {
+
+    let b = document.getElementById(id);
+
+    b.classList.remove("selected","correct","wrong");
+
+  });
+}
+
+load();
 
 </script>
 
 </body>
 </html>
-```
