@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vocabulary & Grammar Test</title>
+<title>Advanced Vocabulary & Grammar Test</title>
 
 <style>
 
 body{
     margin:0;
     padding:20px;
-    font-family:Arial, sans-serif;
     background:#0f172a;
     color:white;
+    font-family:Arial,sans-serif;
 }
 
 .container{
-    max-width:950px;
+    max-width:1000px;
     margin:auto;
     background:#1e293b;
     padding:25px;
@@ -27,11 +27,17 @@ h1{
     text-align:center;
 }
 
+.info{
+    text-align:center;
+    color:#cbd5e1;
+    margin-bottom:20px;
+}
+
 .question{
     background:#334155;
     padding:20px;
-    border-radius:15px;
     margin-top:20px;
+    border-radius:15px;
 }
 
 .option{
@@ -40,8 +46,8 @@ h1{
     margin-top:10px;
     border-radius:10px;
     cursor:pointer;
-    transition:0.2s;
     border:2px solid transparent;
+    transition:0.2s;
 }
 
 .option:hover{
@@ -50,7 +56,7 @@ h1{
 
 .selected{
     border:2px solid #38bdf8;
-    background:#0ea5e9;
+    background:#0284c7;
 }
 
 .correct{
@@ -63,13 +69,13 @@ h1{
 
 button{
     width:100%;
-    padding:16px;
+    padding:15px;
     margin-top:30px;
+    font-size:18px;
     border:none;
     border-radius:12px;
     background:#2563eb;
     color:white;
-    font-size:18px;
     cursor:pointer;
 }
 
@@ -79,14 +85,9 @@ button:hover{
 
 #score{
     text-align:center;
-    font-size:30px;
+    font-size:32px;
     margin-top:25px;
     font-weight:bold;
-}
-
-.info{
-    text-align:center;
-    color:#cbd5e1;
 }
 
 </style>
@@ -95,10 +96,10 @@ button:hover{
 
 <div class="container">
 
-<h1>Vocabulary & Grammar Assessment</h1>
+<h1>Advanced Vocabulary & Grammar Assessment</h1>
 
 <div class="info">
-35 Questions • Randomized Question Order • Randomized Answers
+35 HARD Questions • Randomized Questions • Randomized Answers
 </div>
 
 <div id="quiz"></div>
@@ -114,260 +115,320 @@ button:hover{
 const questions = [
 
 {
-q:"What does 'admonish' mean?",
-o:["To warn or scold","To celebrate","To hide","To relax"],
-a:"To warn or scold"
+q:"The prefix in 'subdued' most nearly means:",
+o:["Above","Under","Against","Again"],
+a:"Under"
 },
 
 {
-q:"What does 'aloofness' mean?",
-o:["Friendliness","Distance or lack of warmth","Excitement","Humor"],
-a:"Distance or lack of warmth"
+q:"The suffix '-ly' in 'grimly' changes the word into a:",
+o:["Noun","Verb","Adjective","Adverb"],
+a:"Adverb"
 },
 
 {
-q:"What does 'coddle' mean?",
-o:["To overprotect","To punish","To ignore","To travel"],
-a:"To overprotect"
+q:"The prefix 'con-' in 'condescending' means:",
+o:["With or together","Against","Under","Apart"],
+a:"With or together"
 },
 
 {
-q:"What does 'condescending' mean?",
-o:["Acting superior","Being nervous","Feeling joyful","Being shy"],
-a:"Acting superior"
+q:"The suffix '-able' usually means:",
+o:["Capable of","Without","Again","Before"],
+a:"Capable of"
 },
 
 {
-q:"What does 'despicable' mean?",
-o:["Wonderful","Terrible","Tiny","Quiet"],
-a:"Terrible"
+q:"Which word contains a prefix meaning 'bad' or 'wrong'?",
+o:["Subtle","Despicable","Merely","Reluctantly"],
+a:"Despicable"
 },
 
 {
-q:"What does 'emaciated' mean?",
-o:["Strong","Extremely thin","Energetic","Confused"],
-a:"Extremely thin"
+q:"What does the suffix '-tion' usually create?",
+o:["Verb","Adverb","Noun","Pronoun"],
+a:"Noun"
 },
 
 {
-q:"What does 'feigned' mean?",
-o:["Pretended","Broken","Loud","Exciting"],
-a:"Pretended"
+q:"The root 'spect' means:",
+o:["To hear","To see","To write","To move"],
+a:"To see"
 },
 
 {
-q:"What does 'grimly' mean?",
-o:["Sadly or seriously","Cheerfully","Carelessly","Quickly"],
-a:"Sadly or seriously"
+q:"Which word best describes someone pretending to be sick?",
+o:["Jovial","Feigned","Indignant","Subdued"],
+a:"Feigned"
 },
 
 {
-q:"If someone is indignant, they are:",
-o:["Excited","Angry about unfairness","Very tired","Confused"],
-a:"Angry about unfairness"
-},
-
-{
-q:"What does 'jovial' mean?",
-o:["Happy and cheerful","Angry","Fearful","Suspicious"],
-a:"Happy and cheerful"
-},
-
-{
-q:"What does 'lethargically' mean?",
-o:["Slowly and lazily","Energetically","Loudly","Happily"],
-a:"Slowly and lazily"
-},
-
-{
-q:"What does 'merely' mean?",
-o:["Only","Always","Never","Rarely"],
-a:"Only"
-},
-
-{
-q:"What does 'ponder' mean?",
-o:["To think deeply","To jump","To hide","To yell"],
-a:"To think deeply"
-},
-
-{
-q:"What does 'reluctantly' mean?",
-o:["Willingly","Unwillingly","Joyfully","Quickly"],
-a:"Unwillingly"
-},
-
-{
-q:"A sentinel is:",
-o:["A guard","A teacher","A chef","A student"],
-a:"A guard"
-},
-
-{
-q:"What does 'severe' mean?",
-o:["Harsh or serious","Funny","Tiny","Soft"],
-a:"Harsh or serious"
-},
-
-{
-q:"What does 'subdued' mean?",
-o:["Calm and quiet","Wild","Excited","Confused"],
-a:"Calm and quiet"
-},
-
-{
-q:"What does 'subtle' mean?",
-o:["Easy to notice","Hard to notice","Bright","Dangerous"],
-a:"Hard to notice"
-},
-
-{
-q:"What does 'suspiciously' mean?",
-o:["In a doubtful way","With happiness","With excitement","Without emotion"],
-a:"In a doubtful way"
-},
-
-{
-q:"What does 'venture' mean?",
-o:["A risky action or journey","A celebration","A punishment","A lesson"],
-a:"A risky action or journey"
-},
-
-{
-q:"'The classroom was a zoo.' is an example of:",
-o:["Metaphor","Simile","Pun","Irony"],
-a:"Metaphor"
-},
-
-{
-q:"'Her smile was as bright as the sun.' is an example of:",
-o:["Simile","Pun","Sarcasm","Irony"],
-a:"Simile"
-},
-
-{
-q:"Giving human qualities to objects is:",
-o:["Personification","Pun","Clause","Irony"],
-a:"Personification"
-},
-
-{
-q:"A joke using wordplay is called:",
-o:["Pun","Metaphor","Simile","Clause"],
-a:"Pun"
-},
-
-{
-q:"Saying 'Nice job' after someone fails badly is:",
-o:["Sarcasm","Simile","Pun","Metaphor"],
-a:"Sarcasm"
-},
-
-{
-q:"Which sentence has correct subject-verb agreement?",
+q:"Which sentence uses 'aloofness' correctly?",
 o:[
-"The dogs bark loudly.",
+"His aloofness made him seem distant from the group.",
+"The aloofness barked loudly all night.",
+"She aloofnessed the paper quickly.",
+"We ate aloofness for lunch."
+],
+a:"His aloofness made him seem distant from the group."
+},
+
+{
+q:"A person who is jovial is MOST likely:",
+o:[
+"Cheerful at a party",
+"Angry during a game",
+"Suspicious of everyone",
+"Too weak to move"
+],
+a:"Cheerful at a party"
+},
+
+{
+q:"What does the root 'vent' mean in 'venture'?",
+o:["To come","To go","To sleep","To hide"],
+a:"To go"
+},
+
+{
+q:"Which word has a suffix meaning 'state or quality'?",
+o:["Aloofness","Ponder","Merely","Severe"],
+a:"Aloofness"
+},
+
+{
+q:"Which sentence contains personification?",
+o:[
+"The wind whispered through the trees.",
+"The tree is tall.",
+"The car is blue.",
+"The boy jumped high."
+],
+a:"The wind whispered through the trees."
+},
+
+{
+q:"Which sentence is a metaphor?",
+o:[
+"The clouds were cotton balls.",
+"He runs quickly.",
+"The test was difficult.",
+"The bell rang loudly."
+],
+a:"The clouds were cotton balls."
+},
+
+{
+q:"Which sentence is a simile?",
+o:[
+"She is a shining star.",
+"He fought like a lion.",
+"The rain danced softly.",
+"The classroom exploded."
+],
+a:"He fought like a lion."
+},
+
+{
+q:"Which sentence demonstrates irony?",
+o:[
+"A police station gets robbed.",
+"The cat slept quietly.",
+"The teacher graded papers.",
+"The rain stopped suddenly."
+],
+a:"A police station gets robbed."
+},
+
+{
+q:"Which sentence uses sarcasm?",
+o:[
+"Fantastic job breaking the vase.",
+"The flowers smell sweet.",
+"The stars shine brightly.",
+"The car is fast."
+],
+a:"Fantastic job breaking the vase."
+},
+
+{
+q:"Which sentence contains a euphemism?",
+o:[
+"He passed away peacefully.",
+"He died yesterday.",
+"He screamed loudly.",
+"He fell down."
+],
+a:"He passed away peacefully."
+},
+
+{
+q:"Choose the sentence with correct subject-verb agreement:",
+o:[
+"Each of the players are ready.",
+"Each of the players is ready.",
 "The dogs barks loudly.",
-"The dog bark loudly.",
-"The dog bark yesterday."
+"The students was studying."
 ],
-a:"The dogs bark loudly."
-},
-
-{
-q:"Choose the correct article:",
-o:[
-"I saw an elephant.",
-"I saw a elephant.",
-"I saw elephant.",
-"I saw elephantly."
-],
-a:"I saw an elephant."
+a:"Each of the players is ready."
 },
 
 {
 q:"Which sentence uses commas correctly?",
 o:[
-"After lunch, we played soccer.",
-"After lunch we played soccer.",
-"After, lunch we played soccer.",
-"After lunch we, played soccer."
+"After the movie, we went home.",
+"After the movie we, went home.",
+"After, the movie we went home.",
+"After the movie we went, home."
 ],
-a:"After lunch, we played soccer."
+a:"After the movie, we went home."
 },
 
 {
-q:"Which word is a pronoun?",
-o:["They","Quickly","Beautiful","Jump"],
-a:"They"
-},
-
-{
-q:"Choose the correct sentence:",
+q:"Which sentence correctly uses who/whom?",
 o:[
-"Whom did you give it to?",
-"Who did you gave it to?",
-"Who gave it to whom?",
-"Whom gave it to you?"
+"Whom is calling me?",
+"Who are you speaking to?",
+"Who did you send the letter to?",
+"Whom baked the cookies?"
 ],
-a:"Whom did you give it to?"
+a:"Who did you send the letter to?"
 },
 
 {
-q:"Which is a clause?",
+q:"Which word is an adjective?",
+o:["Beautiful","Slowly","Run","Quickly"],
+a:"Beautiful"
+},
+
+{
+q:"Which word is an adverb?",
+o:["Carefully","Blue","Strong","Teacher"],
+a:"Carefully"
+},
+
+{
+q:"Which sentence contains an independent clause?",
 o:[
-"because it was raining",
-"under the table",
-"running quickly",
-"bright and sunny"
+"Because it was raining",
+"When the bell rang",
+"The students studied quietly.",
+"After lunch"
 ],
-a:"because it was raining"
+a:"The students studied quietly."
 },
 
 {
-q:"Which sentence is grammatically correct?",
+q:"Which sentence contains a dependent clause?",
 o:[
-"Everyone is ready.",
-"Everyone are ready.",
-"Everyone be ready.",
-"Everyone ready."
+"She opened the door.",
+"Because the storm was severe",
+"The dog barked loudly.",
+"They finished dinner."
 ],
-a:"Everyone is ready."
+a:"Because the storm was severe"
 },
 
 {
-q:"Identify the adjective:",
-o:["Blue","Jump","Quickly","Happily"],
-a:"Blue"
-},
-
-{
-q:"Which sentence contains irony?",
+q:"What does 'indignant' most nearly mean?",
 o:[
-"The fire station burned down.",
-"The cat slept.",
-"The stars twinkled.",
-"The boy ran fast."
+"Angry over unfair treatment",
+"Excited about news",
+"Cheerful and friendly",
+"Lazy and tired"
 ],
-a:"The fire station burned down."
+a:"Angry over unfair treatment"
 },
 
 {
-q:"Which sentence uses a euphemism?",
+q:"Someone moving lethargically is moving:",
 o:[
-"He passed away.",
-"He died.",
-"He screamed loudly.",
-"He ran quickly."
+"Quickly",
+"Carefully",
+"Slowly",
+"Excitedly"
 ],
-a:"He passed away."
+a:"Slowly"
+},
+
+{
+q:"Which word best fits: 'The ___ guard watched the castle gates.'",
+o:["Sentinel","Jovial","Emaciated","Subtle"],
+a:"Sentinel"
+},
+
+{
+q:"Which sentence uses 'ponder' correctly?",
+o:[
+"She pondered the difficult question for hours.",
+"He pondered across the field quickly.",
+"The dog pondered loudly.",
+"We ate ponder for dinner."
+],
+a:"She pondered the difficult question for hours."
+},
+
+{
+q:"What does the suffix '-ed' in 'feigned' show?",
+o:["Future tense","Past tense","Plural form","Comparison"],
+a:"Past tense"
+},
+
+{
+q:"Which word has a prefix meaning 'below'?",
+o:["Subtle","Severe","Merely","Jovial"],
+a:"Subtle"
+},
+
+{
+q:"Choose the sentence with proper article usage:",
+o:[
+"She adopted an unusual cat.",
+"She adopted a unusual cat.",
+"She adopted unusual cat.",
+"She adopted the unusual."
+],
+a:"She adopted an unusual cat."
+},
+
+{
+q:"Which sentence correctly uses a semicolon?",
+o:[
+"I was tired; I went to sleep.",
+"I was tired,; I went to sleep.",
+"I was tired I; went to sleep.",
+"I was tired; because I slept."
+],
+a:"I was tired; I went to sleep."
+},
+
+{
+q:"Which sentence contains a pun?",
+o:[
+"The bicycle could not stand because it was two-tired.",
+"The classroom was silent.",
+"The rain poured heavily.",
+"The stars were bright."
+],
+a:"The bicycle could not stand because it was two-tired."
+},
+
+{
+q:"What does 'reluctantly' MOST likely mean?",
+o:[
+"Eagerly",
+"Unwillingly",
+"Carelessly",
+"Proudly"
+],
+a:"Unwillingly"
 }
 
 ];
 
 function shuffle(array){
     for(let i=array.length-1;i>0;i--){
-        let j=Math.floor(Math.random()*(i+1));
+        const j=Math.floor(Math.random()*(i+1));
         [array[i],array[j]]=[array[j],array[i]];
     }
 }
@@ -387,12 +448,15 @@ questions.forEach((q,index)=>{
 
     let html = `<h3>${index+1}. ${q.q}</h3>`;
 
-    q.o.forEach((option,i)=>{
+    q.o.forEach(option=>{
+
         html += `
-        <div class="option" onclick="selectOption(this,${index},'${option.replace(/'/g,"\\'")}')">
-            ${option}
+        <div class="option"
+        onclick="selectOption(this,${index},'${option.replace(/'/g,"\\'")}')">
+        ${option}
         </div>
         `;
+
     });
 
     div.innerHTML = html;
@@ -412,7 +476,7 @@ function selectOption(element,qIndex,answer){
 
     element.classList.add("selected");
 
-    answers[qIndex]=answer;
+    answers[qIndex] = answer;
 }
 
 function submitQuiz(){
@@ -427,28 +491,28 @@ function submitQuiz(){
 
         options.forEach(option=>{
 
-            if(option.innerText===q.a){
+            if(option.innerText === q.a){
                 option.classList.add("correct");
             }
 
             if(
                 answers[index] &&
-                option.innerText===answers[index] &&
-                answers[index]!==q.a
+                option.innerText === answers[index] &&
+                answers[index] !== q.a
             ){
                 option.classList.add("wrong");
             }
 
         });
 
-        if(answers[index]===q.a){
+        if(answers[index] === q.a){
             score++;
         }
 
     });
 
     document.getElementById("score").innerHTML =
-    `Score: ${score} / ${questions.length}`;
+    `Final Score: ${score} / ${questions.length}`;
 
     window.scrollTo({
         top:document.body.scrollHeight,
