@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colonial Influences | Florida Pre-AP Civics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --parchment: #EFE6CC;
+    --parchment-dark: #E1D2A7;
+    --parchment-line: #cbb98a;
+    --card-bg: #FBF6E7;
+    --ink: #26291E;
+    --ink-soft: #4B4F3D;
+    --wax: #8B2E2A;
+    --wax-dark: #6C211E;
+    --wax-tint: #f1ddd6;
+    --gold: #9C7A34;
+    --gold-tint: #f2e6c4;
+    --green: #566B3F;
+    --shadow: 0 10px 30px rgba(38,41,30,.18);
+    --radius: 4px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at top left, rgba(255,255,255,.35), transparent 55%),
+      var(--parchment);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:'Public Sans', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--gold-tint); }
+  h1,h2,h3,h4{
+    font-family:'Spectral', serif;
+    color:var(--ink);
+    margin:0;
+    letter-spacing:.2px;
+  }
+  a{color:inherit;}
+  button{font-family:inherit;}
+  :focus-visible{ outline:3px solid var(--gold); outline-offset:3px; }
+
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 24px; }
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    position:relative;
+    padding:64px 0 40px;
+    border-bottom:1px solid var(--parchment-line);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,0) 40%);
+    overflow:hidden;
+  }
+  .hero-inner{ position:relative; z-index:2; text-align:center; }
+  .kicker{
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:.78rem; font-weight:600; letter-spacing:.14em;
+    color:var(--wax); text-transform:uppercase;
+    background:var(--wax-tint); border:1px solid rgba(139,46,42,.25);
+    padding:6px 14px; border-radius:999px;
+  }
+  h1.title{
+    font-size:clamp(2.4rem, 6vw, 4rem);
+    font-weight:700;
+    margin:20px 0 10px;
+  }
+  .subtitle{
+    font-size:clamp(1.05rem, 2.2vw, 1.3rem);
+    font-style:italic;
+    color:var(--ink-soft);
+    font-family:'Spectral', serif;
+    max-width:640px;
+    margin:0 auto;
+  }
+  .hero-meta{
+    margin-top:26px;
+    font-size:.9rem;
+    color:var(--ink-soft);
+  }
+  .hero-meta code{
+    background:var(--card-bg);
+    border:1px solid var(--parchment-line);
+    padding:2px 8px;
+    border-radius:3px;
+    font-family:'Public Sans',sans-serif;
+    font-weight:600;
+  }
+
+  /* decorative wax seal */
+  .seal{
+    width:78px; height:78px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #a63b36, var(--wax) 60%, var(--wax-dark) 100%);
+    margin:0 auto 18px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 6px 14px rgba(108,33,30,.4), inset 0 -4px 8px rgba(0,0,0,.25), inset 0 3px 6px rgba(255,255,255,.25);
+    color:#f4e6c8; font-family:'Spectral',serif; font-weight:700; font-size:1.6rem;
+  }
+
+  /* ---------- SECTION SCAFFOLD ---------- */
+  section{ padding:56px 0; }
+  .section-head{ margin-bottom:32px; max-width:680px; }
+  .section-num{
+    font-family:'Spectral', serif; font-style:italic;
+    color:var(--gold); font-size:1rem; margin-bottom:6px; display:block;
+  }
+  h2.section-title{ font-size:clamp(1.6rem,3.5vw,2.2rem); }
+  .section-desc{ margin-top:10px; color:var(--ink-soft); font-size:1rem; }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline-scroll{ overflow-x:auto; padding-bottom:8px; -webkit-overflow-scrolling:touch; }
+  .timeline{
+    position:relative;
+    display:flex;
+    min-width:640px;
+    padding:30px 10px 0;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute; left:0; right:0; top:56px; height:2px;
+    background: linear-gradient(90deg, transparent, var(--ink) 4%, var(--ink) 96%, transparent);
+    opacity:.35;
+  }
+  .t-node{
+    flex:1; text-align:center; cursor:pointer; background:none; border:none; padding:0 6px;
+    color:inherit;
+  }
+  .t-year{ font-family:'Spectral',serif; font-weight:700; font-size:1.05rem; color:var(--ink-soft); }
+  .t-dot{
+    width:16px; height:16px; border-radius:50%;
+    background:var(--card-bg); border:3px solid var(--gold);
+    margin:10px auto; position:relative; z-index:2;
+    transition:transform .2s ease, background .2s ease, border-color .2s ease;
+  }
+  .t-node:hover .t-dot, .t-node.active .t-dot{
+    background:var(--wax); border-color:var(--wax-dark); transform:scale(1.25);
+  }
+  .t-label{ font-size:.85rem; font-weight:600; max-width:130px; margin:0 auto; color:var(--ink); }
+  .t-node.active .t-year{ color:var(--wax); }
+
+  /* ---------- DOCUMENT CARDS ---------- */
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:22px;
+  }
+  @media (max-width:720px){ .card-grid{ grid-template-columns:1fr; } }
+
+  .flip-card{ perspective:1400px; height:340px; scroll-margin-top:100px; }
+  .flip-inner{
+    position:relative; width:100%; height:100%;
+    transform-style:preserve-3d;
+    transition:transform .6s cubic-bezier(.2,.8,.2,1);
+  }
+  .flip-card.flipped .flip-inner{ transform:rotateY(180deg); }
+  .flip-face{
+    position:absolute; inset:0; backface-visibility:hidden;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    border:1px solid var(--parchment-line);
+    padding:26px;
+    display:flex; flex-direction:column;
+  }
+  .flip-front{
+    background:
+      linear-gradient(160deg, rgba(255,255,255,.5), transparent 40%),
+      var(--card-bg);
+    justify-content:space-between;
+  }
+  .flip-back{
+    background:var(--ink);
+    color:var(--parchment);
+    transform:rotateY(180deg);
+    overflow-y:auto;
+  }
+  .flip-back h4{ color:var(--gold-tint); font-size:1.05rem; margin-bottom:6px;}
+  .flip-back ul{ margin:6px 0 14px; padding-left:18px; }
+  .flip-back li{ margin-bottom:5px; font-size:.92rem; }
+  .flip-back p{ font-size:.92rem; margin:6px 0 14px; color:#e8e2cd;}
+
+  .doc-place{ font-size:.78rem; text-transform:uppercase; letter-spacing:.1em; color:var(--gold); font-weight:700; }
+  .doc-year{ font-family:'Spectral',serif; font-size:2.4rem; font-weight:700; color:var(--ink); line-height:1; margin:6px 0;}
+  .doc-name{ font-size:1.3rem; font-weight:700; font-family:'Spectral',serif; }
+  .doc-sub{ font-size:.85rem; color:var(--ink-soft); margin-top:4px; }
+  .flip-hint{
+    align-self:flex-start;
+    font-size:.78rem; color:var(--wax); font-weight:600;
+    display:flex; align-items:center; gap:6px;
+    margin-top:14px;
+  }
+  .flip-hint svg{ width:14px; height:14px; }
+
+  /* ---------- BIG IDEAS MATCH GAME ---------- */
+  .match-wrap{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:28px;
+    align-items:start;
+  }
+  @media (max-width:760px){ .match-wrap{ grid-template-columns:1fr; } }
+  .chip-list, .doc-target-list{ display:flex; flex-direction:column; gap:10px; }
+  .chip{
+    text-align:left;
+    background:var(--card-bg);
+    border:1.5px solid var(--parchment-line);
+    border-radius:var(--radius);
+    padding:13px 16px;
+    font-weight:600;
+    font-size:.98rem;
+    cursor:pointer;
+    transition:border-color .15s, background .15s, transform .1s;
+  }
+  .chip:hover{ border-color:var(--gold); transform:translateX(2px); }
+  .chip.selected{ border-color:var(--wax); background:var(--wax-tint); }
+  .chip.correct{ border-color:var(--green); background:#e7ecdc; color:var(--green); cursor:default; }
+  .chip.correct::after{ content:" ✓ matched"; font-weight:700; font-size:.8rem;}
+  .doc-target{
+    background:transparent;
+    border:1.5px dashed var(--parchment-line);
+    border-radius:var(--radius);
+    padding:14px 16px;
+    cursor:pointer;
+    font-weight:700;
+    font-family:'Spectral',serif;
+    font-size:1.05rem;
+    transition:border-color .15s, background .15s;
+  }
+  .doc-target:hover{ border-color:var(--gold); background:rgba(156,122,52,.06); }
+  .doc-target.shake{ animation:shake .35s; border-color:var(--wax); }
+  @keyframes shake{
+    0%,100%{ transform:translateX(0); }
+    25%{ transform:translateX(-6px); }
+    75%{ transform:translateX(6px); }
+  }
+  .match-status{ margin-top:18px; font-size:.92rem; color:var(--ink-soft); }
+  .match-status.done{ color:var(--green); font-weight:700; }
+  .reset-btn{
+    margin-top:16px;
+    background:none; border:1px solid var(--ink-soft); color:var(--ink-soft);
+    padding:8px 16px; border-radius:999px; font-size:.85rem; font-weight:600; cursor:pointer;
+  }
+  .reset-btn:hover{ border-color:var(--wax); color:var(--wax); }
+
+  /* ---------- QUIZ ---------- */
+  .quiz-card{
+    background:var(--card-bg);
+    border:1px solid var(--parchment-line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:32px;
+  }
+  .quiz-progress{
+    display:flex; gap:6px; margin-bottom:22px;
+  }
+  .quiz-progress span{
+    height:5px; flex:1; background:var(--parchment-dark); border-radius:3px; overflow:hidden;
+  }
+  .quiz-progress span i{
+    display:block; height:100%; width:0%; background:var(--wax); transition:width .3s;
+  }
+  .q-count{ font-size:.82rem; color:var(--gold); font-weight:700; letter-spacing:.05em; text-transform:uppercase;}
+  .q-text{ font-size:1.2rem; margin:10px 0 20px; font-family:'Spectral',serif; }
+  .q-options{ display:flex; flex-direction:column; gap:10px; }
+  .q-option{
+    text-align:left;
+    padding:13px 16px;
+    border:1.5px solid var(--parchment-line);
+    border-radius:var(--radius);
+    background:#fff;
+    cursor:pointer;
+    font-size:.98rem;
+    transition:border-color .15s, background .15s;
+  }
+  .q-option:hover{ border-color:var(--gold); }
+  .q-option.correct{ border-color:var(--green); background:#e7ecdc; }
+  .q-option.wrong{ border-color:var(--wax); background:var(--wax-tint); }
+  .q-explain{
+    margin-top:16px; font-size:.9rem; color:var(--ink-soft);
+    background:var(--gold-tint); border-radius:var(--radius); padding:12px 14px;
+    display:none;
+  }
+  .q-explain.show{ display:block; }
+  .q-nav{ margin-top:22px; display:flex; justify-content:flex-end; }
+  .btn{
+    background:var(--wax); color:#fbf3e6; border:none; padding:11px 22px;
+    border-radius:999px; font-weight:700; font-size:.92rem; cursor:pointer;
+    box-shadow:0 4px 10px rgba(108,33,30,.25);
+    transition:background .15s, transform .1s;
+  }
+  .btn:hover{ background:var(--wax-dark); }
+  .btn:disabled{ opacity:.4; cursor:not-allowed; }
+  .quiz-result{ text-align:center; }
+  .quiz-result .score{
+    font-family:'Spectral',serif; font-size:3rem; font-weight:700; color:var(--wax); margin:10px 0;
+  }
+
+  footer{
+    text-align:center; padding:40px 24px 60px; color:var(--ink-soft); font-size:.85rem;
+    border-top:1px solid var(--parchment-line); margin-top:20px;
+  }
+  footer strong{ color:var(--ink); }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div class="seal">✒</div>
+    <span class="kicker">Florida Pre-AP Civics · SS.7.C.1</span>
+    <h1 class="title">Colonial Influences</h1>
+    <p class="subtitle">Before the Constitution, four documents planted the ideas the colonists carried into 1776.</p>
+    <p class="hero-meta">Explore the timeline, flip each document, match the Big Ideas, then take the quick check &mdash; <code>~10 min</code></p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- TIMELINE -->
+  <section id="timeline-section">
+    <div class="section-head">
+      <span class="section-num">I.</span>
+      <h2 class="section-title">561 years, four documents</h2>
+      <p class="section-desc">The Founders didn't invent American government from nothing &mdash; they borrowed and adapted ideas that had been forming in England and the colonies for centuries. Tap a year to jump to that document.</p>
+    </div>
+    <div class="timeline-scroll">
+      <nav class="timeline" id="timeline">
+        <!-- nodes injected by JS -->
+      </nav>
+    </div>
+  </section>
+
+  <!-- DOCUMENT CARDS -->
+  <section id="documents-section">
+    <div class="section-head">
+      <span class="section-num">II.</span>
+      <h2 class="section-title">The core documents</h2>
+      <p class="section-desc">Click a card to flip it and reveal why the document was written and which ideas it handed down to the colonists.</p>
+    </div>
+    <div class="card-grid" id="cardGrid"></div>
+  </section>
+
+  <!-- MATCH GAME -->
+  <section id="match-section">
+    <div class="section-head">
+      <span class="section-num">III.</span>
+      <h2 class="section-title">Match the Big Idea to its source</h2>
+      <p class="section-desc">Click a Big Idea on the left, then click the document on the right that first introduced it.</p>
+    </div>
+    <div class="match-wrap">
+      <div class="chip-list" id="ideaList"></div>
+      <div class="doc-target-list" id="docTargetList"></div>
+    </div>
+    <p class="match-status" id="matchStatus">0 of 5 matched</p>
+    <button class="reset-btn" id="matchReset">Reset matching</button>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz-section">
+    <div class="section-head">
+      <span class="section-num">IV.</span>
+      <h2 class="section-title">Quick check</h2>
+      <p class="section-desc">Five questions to check your understanding before class discussion.</p>
+    </div>
+    <div class="quiz-card" id="quizCard"></div>
+  </section>
+
+</main>
+
+<footer>
+  Built from your <strong>iCivics: Foundations of Government</strong> reading &mdash; for Florida Pre-AP Civics review, not a graded assessment.
+</footer>
+
+<script>
+/* ============ DATA ============ */
+const documents = [
+  {
+    id: "magna",
+    year: "1215",
+    place: "England",
+    name: "Magna Carta",
+    sub: '"The Great Charter"',
+    purpose: "Angry nobles forced King John to sign this after he tried to seize all the power for himself. It limited the king's power and protected certain rights for the nobility.",
+    influence: ["Limited government", "Due process of law", "Helped create England's Parliament"]
+  },
+  {
+    id: "mayflower",
+    year: "1620",
+    place: "American Colonies",
+    name: "Mayflower Compact",
+    sub: "Signed aboard ship",
+    purpose: "Blown off course from Virginia, the Pilgrims landed outside any colony's control. The men aboard signed this agreement, on behalf of their families, to form a government fast.",
+    influence: ["Self-government", "Rule of law", "Government exists to serve the common good"]
+  },
+  {
+    id: "ebor",
+    year: "1689",
+    place: "England",
+    name: "English Bill of Rights",
+    sub: "Parliament vs. the Crown, round two",
+    purpose: "After decades of conflict, Parliament came out on top and passed this law, which expanded rights for the people while limiting royal power even further &mdash; for everyone, not just nobles.",
+    influence: ["Individual rights", "Right to a fair trial & to petition", "No excessive bail or cruel punishment"]
+  },
+  {
+    id: "commonsense",
+    year: "1776",
+    place: "American Colonies",
+    name: '"Common Sense"',
+    sub: "Pamphlet by Thomas Paine",
+    purpose: "Written while colonial leaders debated what to do about Britain, this bestselling pamphlet argued in plain language that the real problem was monarchy itself, not just one king.",
+    influence: ["Anti-monarchy argument", "Convinced everyday colonists to support independence", "Helped pave the way to July 4, 1776"]
+  }
+];
+
+const bigIdeas = [
+  { idea: "Due process of law", doc: "magna" },
+  { idea: "Limited government", doc: "magna" },
+  { idea: "Self-government", doc: "mayflower" },
+  { idea: "Rule of law", doc: "mayflower" },
+  { idea: "Individual rights", doc: "ebor" }
+];
+
+const quizQuestions = [
+  {
+    q: "Which document first introduced the ideas of due process and limited government to English law?",
+    options: ["Mayflower Compact", "Magna Carta", "English Bill of Rights", '"Common Sense"'],
+    correct: 1,
+    explain: "In 1215, angry nobles forced King John to sign the Magna Carta after he tried to seize all the power for himself. It's the earliest document in the timeline."
+  },
+  {
+    q: "What problem was the Mayflower Compact written to solve?",
+    options: [
+      "A trade dispute with the Virginia Company",
+      "Deciding who was in charge after the ship landed outside Virginia's territory",
+      "Declaring independence from Britain",
+      "Limiting the power of King John"
+    ],
+    correct: 1,
+    explain: "A storm blew the Mayflower off course into what's now Massachusetts, outside the Virginia Company's control, so the Pilgrims needed a government fast."
+  },
+  {
+    q: "The English Bill of Rights (1689) came out of a conflict between which two groups?",
+    options: ["Colonists and the king", "Parliament and the king", "Nobles and Pilgrims", "Britain and France"],
+    correct: 1,
+    explain: "Parliament had been battling the king for decades over power; the English Bill of Rights was passed after Parliament came out on top."
+  },
+  {
+    q: "Who wrote \"Common Sense,\" and what was its main argument?",
+    options: [
+      "Thomas Paine argued the real problem was monarchy itself, not just the current king",
+      "King John argued colonists should pay more taxes",
+      "A group of nobles argued for a new Magna Carta",
+      "Cato the Elder argued for stronger royal power"
+    ],
+    correct: 0,
+    explain: "Thomas Paine's 1776 pamphlet explained the case for independence in language everyday colonists could understand, and helped build support for it."
+  },
+  {
+    q: 'In the 1720s, British writers using the pen names "Cato" published essays known as Cato\'s Letters. What did they argue for?',
+    options: [
+      "Higher taxes on the colonies",
+      "Freedom of speech and expression, and against government corruption",
+      "A permanent monarchy",
+      "Ending the printing press"
+    ],
+    correct: 1,
+    explain: "Cato's Letters became so popular in the colonies that half of private colonial libraries owned a copy &mdash; they helped spread ideas about free expression."
+  }
+];
+
+/* ============ TIMELINE ============ */
+const timelineEl = document.getElementById('timeline');
+documents.forEach((d, i) => {
+  const btn = document.createElement('button');
+  btn.className = 't-node';
+  btn.dataset.id = d.id;
+  btn.innerHTML = `
+    <div class="t-year">${d.year}</div>
+    <div class="t-dot"></div>
+    <div class="t-label">${d.name}</div>
+  `;
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.t-node').forEach(n => n.classList.remove('active'));
+    btn.classList.add('active');
+    const card = document.getElementById('card-' + d.id);
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (!card.classList.contains('flipped')) card.classList.add('flipped');
+  });
+  timelineEl.appendChild(btn);
+});
+
+/* ============ DOCUMENT CARDS ============ */
+const grid = document.getElementById('cardGrid');
+documents.forEach(d => {
+  const card = document.createElement('div');
+  card.className = 'flip-card';
+  card.id = 'card-' + d.id;
+  card.innerHTML = `
+    <div class="flip-inner">
+      <div class="flip-face flip-front">
+        <div>
+          <div class="doc-place">${d.place}</div>
+          <div class="doc-year">${d.year}</div>
+          <div class="doc-name">${d.name}</div>
+          <div class="doc-sub">${d.sub}</div>
+        </div>
+        <div class="flip-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 2l4 4-4 4M21 6H8M7 22l-4-4 4-4M3 18h13"/></svg>
+          Tap to flip
+        </div>
+      </div>
+      <div class="flip-face flip-back">
+        <h4>Why it was written</h4>
+        <p>${d.purpose}</p>
+        <h4>What it handed down</h4>
+        <ul>${d.influence.map(x => `<li>${x}</li>`).join('')}</ul>
+      </div>
+    </div>
+  `;
+  card.addEventListener('click', () => card.classList.toggle('flipped'));
+  grid.appendChild(card);
+});
+
+/* ============ MATCH GAME ============ */
+const ideaListEl = document.getElementById('ideaList');
+const docTargetListEl = document.getElementById('docTargetList');
+const matchStatusEl = document.getElementById('matchStatus');
+let selectedIdea = null;
+let matchedCount = 0;
+
+const shuffledIdeas = [...bigIdeas].sort(() => Math.random() - 0.5);
+shuffledIdeas.forEach(item => {
+  const chip = document.createElement('button');
+  chip.className = 'chip';
+  chip.textContent = item.idea;
+  chip.dataset.doc = item.doc;
+  chip.addEventListener('click', () => {
+    if (chip.classList.contains('correct')) return;
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+    chip.classList.add('selected');
+    selectedIdea = chip;
+  });
+  ideaListEl.appendChild(chip);
+});
+
+const uniqueDocs = [...new Map(bigIdeas.map(i => [i.doc, i.doc])).keys()];
+uniqueDocs.forEach(docId => {
+  const doc = documents.find(d => d.id === docId);
+  const target = document.createElement('button');
+  target.className = 'doc-target';
+  target.textContent = doc.name;
+  target.dataset.doc = docId;
+  target.addEventListener('click', () => {
+    if (!selectedIdea) {
+      target.classList.add('shake');
+      setTimeout(() => target.classList.remove('shake'), 350);
+      return;
+    }
+    if (selectedIdea.dataset.doc === docId) {
+      selectedIdea.classList.remove('selected');
+      selectedIdea.classList.add('correct');
+      selectedIdea = null;
+      matchedCount++;
+      matchStatusEl.textContent = `${matchedCount} of ${bigIdeas.length} matched`;
+      if (matchedCount === bigIdeas.length) {
+        matchStatusEl.textContent = 'All matched! Nice work.';
+        matchStatusEl.classList.add('done');
+      }
+    } else {
+      target.classList.add('shake');
+      setTimeout(() => target.classList.remove('shake'), 350);
+    }
+  });
+  docTargetListEl.appendChild(target);
+});
+
+document.getElementById('matchReset').addEventListener('click', () => {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('correct', 'selected'));
+  selectedIdea = null;
+  matchedCount = 0;
+  matchStatusEl.textContent = `0 of ${bigIdeas.length} matched`;
+  matchStatusEl.classList.remove('done');
+});
+
+/* ============ QUIZ ============ */
+const quizCard = document.getElementById('quizCard');
+let currentQ = 0;
+let score = 0;
+let answered = false;
+
+function renderQuestion() {
+  answered = false;
+  const q = quizQuestions[currentQ];
+  quizCard.innerHTML = `
+    <div class="quiz-progress">
+      ${quizQuestions.map((_, i) => `<span><i style="width:${i < currentQ ? '100%' : (i === currentQ ? '0%' : '0%')}"></i></span>`).join('')}
+    </div>
+    <div class="q-count">Question ${currentQ + 1} of ${quizQuestions.length}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="q-options" id="qOptions"></div>
+    <div class="q-explain" id="qExplain">${q.explain}</div>
+    <div class="q-nav">
+      <button class="btn" id="qNextBtn" disabled>${currentQ === quizQuestions.length - 1 ? 'See results' : 'Next question'}</button>
+    </div>
+  `;
+  updateProgress();
+  const optWrap = document.getElementById('qOptions');
+  q.options.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'q-option';
+    b.textContent = opt;
+    b.addEventListener('click', () => {
+      if (answered) return;
+      answered = true;
+      const opts = optWrap.querySelectorAll('.q-option');
+      opts.forEach((o, j) => {
+        if (j === q.correct) o.classList.add('correct');
+        else if (j === i) o.classList.add('wrong');
+      });
+      if (i === q.correct) score++;
+      document.getElementById('qExplain').classList.add('show');
+      document.getElementById('qNextBtn').disabled = false;
+    });
+    optWrap.appendChild(b);
+  });
+  document.getElementById('qNextBtn').addEventListener('click', () => {
+    if (currentQ < quizQuestions.length - 1) {
+      currentQ++;
+      renderQuestion();
+    } else {
+      renderResults();
+    }
+  });
+}
+
+function updateProgress() {
+  document.querySelectorAll('.quiz-progress span i').forEach((bar, i) => {
+    bar.style.width = i <= currentQ ? '100%' : '0%';
+  });
+}
+
+function renderResults() {
+  const pct = Math.round((score / quizQuestions.length) * 100);
+  let msg = "Nice start &mdash; review the flip cards above and try again.";
+  if (pct >= 60 && pct < 100) msg = "Solid work! You've got most of the core ideas down.";
+  if (pct === 100) msg = "Perfect score &mdash; you know your core documents cold.";
+  quizCard.innerHTML = `
+    <div class="quiz-result">
+      <div class="q-count">Quick check complete</div>
+      <div class="score">${score} / ${quizQuestions.length}</div>
+      <p>${msg}</p>
+      <button class="btn" id="qRestartBtn">Try again</button>
+    </div>
+  `;
+  document.getElementById('qRestartBtn').addEventListener('click', () => {
+    currentQ = 0;
+    score = 0;
+    renderQuestion();
+  });
+}
+
+renderQuestion();
+</script>
+</body>
+</html>
